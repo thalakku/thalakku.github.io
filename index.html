@@ -462,8 +462,7 @@ nav a.active { color: var(--gold); }
 }
 
 .sk-row {
-  display: grid; grid-template-columns: 160px 1fr;
-  gap: 1.2rem; align-items: center;
+  display: block;
   padding: 1rem 0; border-bottom: 1px solid var(--rim);
   opacity: 0; transform: translateX(-14px);
   transition: opacity .5s ease, transform .5s ease, background .2s, padding-left .2s;
@@ -474,21 +473,8 @@ nav a.active { color: var(--gold); }
 .sk-row:hover { background: rgba(255,255,255,.025); padding-left: .5rem; }
 .sk-name { font-size: .72rem; color: var(--g8); }
 
-.sk-track {
-  height: 1px; background: var(--g2); position: relative;
-}
-.sk-fill {
-  position: absolute; top: 0; left: 0; height: 100%;
-  background: linear-gradient(90deg, var(--g4), var(--gold));
-  width: 0; transition: width 1.5s cubic-bezier(.23,1,.32,1);
-  box-shadow: 0 0 8px rgba(201,168,76,.4);
-}
-.sk-fill::after {
-  content: ''; position: absolute; right: -1px; top: 50%;
-  transform: translateY(-50%);
-  width: 5px; height: 5px; background: var(--gold);
-  border-radius: 50%; box-shadow: 0 0 10px var(--gold);
-}
+.sk-track { display: none; }
+.sk-fill { display: none; }
 
 /* tags */
 .sk-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
@@ -1114,7 +1100,7 @@ footer {
         <div class="edu-b">
           <div>
             <div class="edu-n">B.E. Computer Science</div>
-            <div class="edu-s">NSCET — Nadar Saraswathi College of Engineering & Tech</div>
+            <div class="edu-s">NSCET — Nadar Saraswathi College of Engineering & Technology</div>
           </div>
           <div class="edu-y">2021</div>
         </div>
@@ -1201,7 +1187,7 @@ footer {
       <div class="ct-r">
         <div class="ct-links">
           <a href="mailto:madeshthalakku@gmail.com" class="clink">
-            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val">madeshthalakku@gmail.com</div></div></div>
+            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val"><span class="__cf_email__" data-cfemail="4d202c29283e2539252c212c2626380d2a202c2421632e2220">madeshthalakku@gmail.com</span></div></div></div>
             <div class="cl-arr">↗</div>
           </a>
           <a href="tel:+918072574946" class="clink">
@@ -1260,7 +1246,7 @@ footer {
   </button>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── AURORA ───────────────────────── */
 const aur = document.getElementById('aur');
 const ac  = aur.getContext('2d');
@@ -1353,10 +1339,7 @@ new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.querySelectorAll('.sk-row').forEach((r,i)=>{
-        setTimeout(()=>{
-          r.classList.add('vis');
-          setTimeout(()=>{ r.querySelector('.sk-fill').style.width = r.dataset.p+'%'; }, 80);
-        }, i*110);
+        setTimeout(()=>{ r.classList.add('vis'); }, i*110);
       });
     }
   });
@@ -1480,13 +1463,9 @@ function unlock(){
     setPlaying(true);
     fadeIn();
   }).catch(()=>{});
-
-  window.removeEventListener('wheel', unlock);
+  
   window.removeEventListener('pointerdown', unlock);
 }
-
-window.addEventListener('wheel', unlock, { once:true });
-window.addEventListener('pointerdown', unlock, { once:true });
 
 window.addEventListener('pointerdown', unlock, { once:true });
 
