@@ -380,11 +380,28 @@ nav a.active { color: var(--gold); }
   display: flex; flex-direction: column;
   justify-content: space-between; min-height: 220px;
 }
-.pc:nth-child(1) .pi::after {
-  content: 'AWARD WINNING · 2020'; font-size: .48rem; letter-spacing: .32em;
-  color: var(--gold); border: 1px solid rgba(201,168,76,.25);
-  padding: .2rem .6rem; display: inline-block;
-  margin-bottom: 1rem; background: var(--goldf); width: fit-content;
+/* .award-badge — real HTML replacement for pseudo badge */
+.award-badge {
+  display: inline-block;
+  position: relative;
+  font-size: .48rem; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(201,168,76,.4);
+  padding: .2rem .6rem;
+  margin-bottom: 1rem; background: var(--goldf);
+  border-radius: 1px; width: fit-content;
+  box-shadow: 0 0 8px rgba(201,168,76,.3), 0 0 20px rgba(201,168,76,.12);
+  animation: badge-pulse 2.4s ease-in-out infinite;
+  overflow: visible;
+}
+@keyframes badge-pulse {
+  0%,100% {
+    box-shadow: 0 0 6px rgba(201,168,76,.3), 0 0 16px rgba(201,168,76,.12);
+    border-color: rgba(201,168,76,.35);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(201,168,76,.65), 0 0 32px rgba(201,168,76,.28), 0 0 50px rgba(201,168,76,.1);
+    border-color: rgba(201,168,76,.75);
+  }
 }
 /* .pc:nth-child(1) .pi { min-height: 320px; }
 .pc:nth-child(2) .pi { min-height: 440px; }
@@ -495,7 +512,69 @@ nav a.active { color: var(--gold); }
 .edu-s { font-size: .6rem; color: var(--g6); margin-top: .3rem; }
 .edu-y { font-family: var(--disp); font-size: 1.5rem; color: var(--g2); letter-spacing: .06em; }
 
-/* ── AWARDS ─────────────────────────────── */
+/* ── AWARD ICONS ─────────────────────────── */
+.aw-ico {
+  font-size: 2rem; margin-bottom: 1.4rem;
+  display: inline-block;
+  position: relative;
+}
+
+/* ── SPARKLES (AWARD WINNING badge) ─────── */
+.sparkle-wrap { position: relative; display: inline-block; }
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  font-size: var(--sz, 9px);
+  color: var(--goldl);
+  animation: sp var(--dur, 2.2s) ease-in-out var(--delay, 0s) infinite;
+  user-select: none;
+  line-height: 1;
+}
+@keyframes sp {
+  0%   { opacity: 0; transform: translate(var(--tx,0px), var(--ty,0px)) scale(0) rotate(0deg); }
+  25%  { opacity: 1; transform: translate(var(--tx,0px), calc(var(--ty,0px) - 4px)) scale(1.1) rotate(45deg); }
+  70%  { opacity: .5; transform: translate(var(--tx,0px), calc(var(--ty,0px) - 9px)) scale(0.8) rotate(90deg); }
+  100% { opacity: 0; transform: translate(var(--tx,0px), calc(var(--ty,0px) - 14px)) scale(0) rotate(135deg); }
+}
+
+/* Trophy — always glowing gold, spins slightly on hover */
+.aw-pan:nth-child(1) .aw-ico {
+  filter: drop-shadow(0 0 6px rgba(201,168,76,.5)) drop-shadow(0 0 16px rgba(201,168,76,.25));
+  animation: trophy-glow 2.8s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+@keyframes trophy-glow {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(201,168,76,.4)) drop-shadow(0 0 12px rgba(201,168,76,.2)); }
+  50%      { filter: drop-shadow(0 0 10px rgba(201,168,76,.8)) drop-shadow(0 0 28px rgba(201,168,76,.4)) drop-shadow(0 0 50px rgba(201,168,76,.15)); }
+}
+.aw-pan:nth-child(1):hover .aw-ico {
+  animation: trophy-spin 0.5s cubic-bezier(.23,1,.32,1) forwards, trophy-glow 2.8s ease-in-out infinite;
+}
+@keyframes trophy-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  40%  { transform: rotate(-12deg) scale(1.15); }
+  100% { transform: rotate(0deg) scale(1.1); }
+}
+
+/* Bulb — starts dim (off), lights up when .bulb-on class is added by JS */
+.aw-pan:nth-child(2) .aw-ico {
+  filter: grayscale(1) brightness(0.35);
+  transition: filter 1s cubic-bezier(.23,1,.32,1);
+}
+.aw-pan:nth-child(2) .aw-ico.bulb-on {
+  filter: grayscale(0) brightness(1.2) drop-shadow(0 0 8px rgba(255,228,100,.7)) drop-shadow(0 0 24px rgba(255,200,50,.45)) drop-shadow(0 0 50px rgba(255,180,0,.2));
+  animation: bulb-flicker 0.4s steps(1) 0.1s 3, bulb-steady 3s ease-in-out infinite 1.3s;
+}
+@keyframes bulb-flicker {
+  0%,100% { filter: grayscale(0) brightness(1.2) drop-shadow(0 0 8px rgba(255,228,100,.7)) drop-shadow(0 0 24px rgba(255,200,50,.45)); }
+  33%     { filter: grayscale(0) brightness(0.4); }
+  66%     { filter: grayscale(0) brightness(1.3) drop-shadow(0 0 14px rgba(255,228,100,.9)); }
+}
+@keyframes bulb-steady {
+  0%,100% { filter: grayscale(0) brightness(1.1) drop-shadow(0 0 6px rgba(255,228,100,.55)) drop-shadow(0 0 18px rgba(255,200,50,.3)); }
+  50%     { filter: grayscale(0) brightness(1.3) drop-shadow(0 0 12px rgba(255,228,100,.8)) drop-shadow(0 0 32px rgba(255,200,50,.5)) drop-shadow(0 0 55px rgba(255,180,0,.2)); }
+}
 .aw-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 1px; background: var(--rim2); border: 1px solid var(--rim2);
@@ -635,7 +714,7 @@ footer {
   <div class="nav-r">
     <a href="#awards">Awards</a>
     <a href="#contact">Contact</a>
-    <a href="mailto:madeshthalakku@gmail.com">Hire</a>
+    <a href="/cdn-cgi/l/email-protection#600d01040513081408010c010b0b1520070d01090c4e030f0d">Hire</a>
   </div>
 </nav>
 
@@ -777,6 +856,7 @@ footer {
         <div class="pi" style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start;min-height:300px;">
           <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;">
             <div>
+              <span class="award-badge" id="award-badge">AWARD WINNING · 2020</span>
               <div class="ptyp">AI · Computer Vision · IoT · Accessibility</div>
               <div class="ptit">AI Assistant for Visually Challenged People</div>
             </div>
@@ -992,8 +1072,8 @@ footer {
       </div>
       <div class="ct-r">
         <div class="ct-links">
-          <a href="mailto:madeshthalakku@gmail.com" class="clink">
-            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val"><span class="__cf_email__" data-cfemail="8ee3efeaebfde6fae6efe2efe5e5fbcee9e3efe7e2a0ede1e3">madeshthalakku@gmail.com</span></div></div></div>
+          <a href="/cdn-cgi/l/email-protection#3c515d58594f5448545d505d5757497c5b515d5550125f5351" class="clink">
+            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val"><span class="__cf_email__" data-cfemail="8ee3efeaebfde6fae6efe2efe5e5fbcee9e3efe7e2a0ede1e3"><span class="__cf_email__" data-cfemail="0b666a6f6e78637f636a676a60607e4b6c666a626725686466">[email&#160;protected]</span></span></div></div></div>
             <div class="cl-arr">↗</div>
           </a>
           <a href="tel:+918072574946" class="clink">
@@ -1029,7 +1109,7 @@ footer {
   <div class="fr">Full Stack Developer · Chennai</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── AURORA ───────────────────────── */
 const aur = document.getElementById('aur');
 const ac  = aur.getContext('2d');
@@ -1095,8 +1175,8 @@ const ht = document.querySelector('.h-name-thalakku');
 const hm = document.querySelector('.h-name-madesh');
 window.addEventListener('scroll', ()=>{
   const y = window.scrollY;
-  if(ht) ht.style.transform = `translateY(${y*.12}px)`;
-  if(hm) hm.style.transform = `translateY(${y*.08}px)`;
+  if(ht) ht.style.transform = `translateY(${-y*.12}px)`;
+  if(hm) hm.style.transform = `translateY(${-y*.08}px)`;
 });
 
 /* ── TYPEWRITER ──────────────────── */
@@ -1175,6 +1255,39 @@ document.querySelectorAll('.aw-pan').forEach(p=>{
   });
   p.addEventListener('mouseleave', ()=>{ p.style.background=''; });
 });
+
+/* ── SPARKLES on AWARD WINNING badge ─── */
+(function(){
+  const badge = document.getElementById('award-badge');
+  if(!badge) return;
+  // 7 sparkles scattered around badge edges
+  const positions = [
+    { tx:'-10px', ty:'-10px', delay:'0s',    dur:'2.2s', sz:'8px'  },
+    { tx:'50%',   ty:'-12px', delay:'0.4s',  dur:'2.6s', sz:'6px'  },
+    { tx:'105%',  ty:'-8px',  delay:'0.9s',  dur:'2s',   sz:'9px'  },
+    { tx:'110%',  ty:'50%',   delay:'0.2s',  dur:'2.8s', sz:'7px'  },
+    { tx:'90%',   ty:'110%',  delay:'1.1s',  dur:'2.3s', sz:'6px'  },
+    { tx:'20%',   ty:'115%',  delay:'0.6s',  dur:'2.5s', sz:'8px'  },
+    { tx:'-12px', ty:'60%',   delay:'1.4s',  dur:'2.1s', sz:'7px'  },
+  ];
+  positions.forEach(p => {
+    const s = document.createElement('span');
+    s.className = 'sparkle';
+    s.textContent = '✦';
+    s.style.cssText = `--tx:${p.tx};--ty:${p.ty};--delay:${p.delay};--dur:${p.dur};--sz:${p.sz};left:${p.tx};top:${p.ty};`;
+    badge.appendChild(s);
+  });
+})();
+
+/* ── BULB ON-EFFECT ──────────────────── */
+new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    setTimeout(()=>{
+      const bulb = document.querySelector('.aw-pan:nth-child(2) .aw-ico');
+      if(bulb) bulb.classList.add('bulb-on');
+    }, 400);
+  }
+},{ threshold:.5 }).observe(document.querySelector('.aw-grid'));
 
 /* ── ACTIVE NAV ──────────────────── */
 document.querySelectorAll('section[id]').forEach(s=>{
