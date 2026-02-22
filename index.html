@@ -842,7 +842,7 @@ footer {
   <div class="nav-r">
     <a href="#awards">Awards</a>
     <a href="#contact">Contact</a>
-    <a href="/cdn-cgi/l/email-protection#e38e828786908b978b828f82888896a3848e828a8fcd808c8e">Hire</a>
+    <a href="mailto:madeshthalakku@gmail.com">Hire</a>
   </div>
 </nav>
 
@@ -1200,8 +1200,8 @@ footer {
       </div>
       <div class="ct-r">
         <div class="ct-links">
-          <a href="/cdn-cgi/l/email-protection#6d000c09081e0519050c010c0606182d0a000c0401430e0200" class="clink">
-            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val"><span class="__cf_email__" data-cfemail="0964686d6c7a617d6168656862627c496e64686065276a6664">[email&#160;protected]</span></div></div></div>
+          <a href="mailto:madeshthalakku@gmail.com" class="clink">
+            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val">madeshthalakku@gmail.com</div></div></div>
             <div class="cl-arr">↗</div>
           </a>
           <a href="tel:+918072574946" class="clink">
@@ -1260,7 +1260,7 @@ footer {
   </button>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── AURORA ───────────────────────── */
 const aur = document.getElementById('aur');
 const ac  = aur.getContext('2d');
@@ -1436,6 +1436,9 @@ const playBtn  = document.getElementById('play-btn');
 const iconPlay = document.getElementById('icon-play');
 const iconPause= document.getElementById('icon-pause');
 const bars     = document.getElementById('player-bars');
+window.addEventListener('load', () => {
+  audio.muted = false;
+});
 audio.volume = 0.35;
 
 function setPlaying(on){
@@ -1443,6 +1446,10 @@ function setPlaying(on){
   iconPause.style.display = on ? 'block' : 'none';
   on ? bars.classList.remove('paused') : bars.classList.add('paused');
 }
+window.addEventListener('load', () => {
+  setPlaying(true);
+  bars.classList.remove('paused');
+});
 function fadeIn(){
   audio.volume = 0;
   const t = setInterval(()=>{
@@ -1462,20 +1469,26 @@ playBtn.addEventListener('click', e => {
   }
 });
 
-// Chrome policy: audio.play() needs direct user gesture.
-// Solution: simulate a click on the play button on first scroll —
-// scroll IS a user gesture, and .click() on an element inside the handler
-// counts as trusted interaction.
+// browsers block autoplay until user interacts — catch FIRST gesture
 let unlocked = false;
+
 function unlock(){
   if(unlocked) return;
-  unlocked = true;
-  playBtn.click();
+
+  audio.play().then(()=>{
+    unlocked = true;
+    setPlaying(true);
+    fadeIn();
+  }).catch(()=>{});
+
+  window.removeEventListener('wheel', unlock);
+  window.removeEventListener('pointerdown', unlock);
 }
-window.addEventListener('scroll',     unlock, { once:true, passive:true });
-window.addEventListener('wheel',      unlock, { once:true, passive:true });
-window.addEventListener('touchstart', unlock, { once:true, passive:true });
-window.addEventListener('pointerdown',unlock, { once:true });
+
+window.addEventListener('wheel', unlock, { once:true });
+window.addEventListener('pointerdown', unlock, { once:true });
+
+window.addEventListener('pointerdown', unlock, { once:true });
 
 // sync icon if browser somehow manages to autoplay
 audio.addEventListener('play',  ()=> setPlaying(true));
