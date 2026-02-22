@@ -75,6 +75,13 @@ body {
 body.ch #cdot { width: 0; height: 0; }
 body.ch #cring { width: 64px; height: 64px; border-color: var(--gold); }
 
+/* hide custom cursor on touch/mobile devices */
+@media(hover:none),(max-width:768px){
+  #cdot, #cring { display: none !important; }
+  body { cursor: auto !important; }
+  a, button, [cursor:none] { cursor: auto !important; }
+}
+
 /* ── PROGRESS ───────────────────────────── */
 #prog {
   position: fixed; top: 0; left: 0; height: 2px;
@@ -663,6 +670,83 @@ footer {
 .fr { text-align: right; }
 .fc { font-family: var(--disp); font-size: .95rem; letter-spacing: .22em; color: var(--g2); }
 
+/* ── MUSIC PLAYER ───────────────────────── */
+#player {
+  position: fixed;
+  bottom: 1.8rem; right: 1.8rem;
+  z-index: 7000;
+  display: flex; align-items: center; gap: .8rem;
+  background: rgba(12,12,20,0.88);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid var(--rim2);
+  border-radius: 40px;
+  padding: .55rem .55rem .55rem 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 0 1px rgba(201,168,76,.08);
+  transition: all .35s cubic-bezier(.23,1,.32,1);
+  cursor: default;
+}
+#player:hover {
+  border-color: rgba(201,168,76,.3);
+  box-shadow: 0 12px 40px rgba(0,0,0,.6), 0 0 20px rgba(201,168,76,.08);
+}
+#player-info { display: flex; flex-direction: column; gap: .1rem; }
+#player-track {
+  font-family: var(--mono); font-size: .58rem;
+  letter-spacing: .1em; color: var(--g8);
+  white-space: nowrap;
+}
+#player-artist {
+  font-family: var(--mono); font-size: .5rem;
+  letter-spacing: .12em; color: var(--g4);
+  text-transform: uppercase;
+}
+
+#play-btn {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink);
+  flex-shrink: 0;
+  transition: all .25s cubic-bezier(.23,1,.32,1);
+  box-shadow: 0 0 0 0 rgba(201,168,76,.4);
+}
+#play-btn:hover {
+  background: var(--goldl);
+  transform: scale(1.1);
+  box-shadow: 0 0 16px rgba(201,168,76,.5);
+}
+#play-btn:active { transform: scale(.95); }
+
+/* animated bars — music visualiser */
+#player-bars {
+  display: flex; align-items: flex-end;
+  gap: 2px; height: 16px;
+}
+#player-bars span {
+  display: block; width: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+  transform-origin: bottom;
+}
+#player-bars span:nth-child(1) { animation: bar 0.9s ease-in-out infinite; }
+#player-bars span:nth-child(2) { animation: bar 0.7s ease-in-out .15s infinite; }
+#player-bars span:nth-child(3) { animation: bar 1.1s ease-in-out .05s infinite; }
+#player-bars span:nth-child(4) { animation: bar 0.8s ease-in-out .25s infinite; }
+@keyframes bar {
+  0%,100% { height: 3px; opacity: .4; }
+  50%      { height: 14px; opacity: 1; }
+}
+#player-bars.paused span { height: 3px !important; opacity: .3; animation-play-state: paused; }
+
+/* mobile: compact — just the button */
+@media(max-width:600px){
+  #player { padding: .5rem; gap: 0; }
+  #player-info, #player-bars { display: none; }
+  #play-btn { width: 38px; height: 38px; }
+}
+
 /* ── REVEAL ─────────────────────────────── */
 .reveal {
   opacity: 0; transform: translateY(28px);
@@ -758,7 +842,7 @@ footer {
   <div class="nav-r">
     <a href="#awards">Awards</a>
     <a href="#contact">Contact</a>
-    <a href="/cdn-cgi/l/email-protection#600d01040513081408010c010b0b1520070d01090c4e030f0d">Hire</a>
+    <a href="mailto:madeshthalakku@gmail.com">Hire</a>
   </div>
 </nav>
 
@@ -1030,7 +1114,7 @@ footer {
         <div class="edu-b">
           <div>
             <div class="edu-n">B.E. Computer Science</div>
-            <div class="edu-s">NSCET — Nadar Saraswathi College of Engineering & Technology</div>
+            <div class="edu-s">NSCET — Narayanaguru College of Engineering</div>
           </div>
           <div class="edu-y">2021</div>
         </div>
@@ -1116,8 +1200,8 @@ footer {
       </div>
       <div class="ct-r">
         <div class="ct-links">
-          <a href="/cdn-cgi/l/email-protection#3c515d58594f5448545d505d5757497c5b515d5550125f5351" class="clink">
-            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val"><span class="__cf_email__" data-cfemail="8ee3efeaebfde6fae6efe2efe5e5fbcee9e3efe7e2a0ede1e3"><span class="__cf_email__" data-cfemail="0b666a6f6e78637f636a676a60607e4b6c666a626725686466">[email&#160;protected]</span></span></div></div></div>
+          <a href="mailto:madeshthalakku@gmail.com" class="clink">
+            <div class="cl-left"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val">madeshthalakku@gmail.com</div></div></div>
             <div class="cl-arr">↗</div>
           </a>
           <a href="tel:+918072574946" class="clink">
@@ -1153,7 +1237,30 @@ footer {
   <div class="fr">Full Stack Developer · Chennai</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<audio id="bg-audio" loop preload="auto" autoplay muted>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- MUSIC PLAYER -->
+<div id="player">
+  <div id="player-bars" class="paused">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div id="player-info">
+    <div id="player-track">Music</div>
+    <div id="player-artist"></div>
+  </div>
+  <button id="play-btn" aria-label="Play music">
+    <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+    <svg id="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="display:none">
+      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+    </svg>
+  </button>
+</div>
+
+<script>
 /* ── AURORA ───────────────────────── */
 const aur = document.getElementById('aur');
 const ac  = aur.getContext('2d');
@@ -1322,6 +1429,66 @@ document.querySelectorAll('.aw-pan').forEach(p=>{
     badge.appendChild(s);
   });
 })();
+
+/* ── MUSIC PLAYER ────────────────────── */
+const audio    = document.getElementById('bg-audio');
+const playBtn  = document.getElementById('play-btn');
+const iconPlay = document.getElementById('icon-play');
+const iconPause= document.getElementById('icon-pause');
+const bars     = document.getElementById('player-bars');
+window.addEventListener('load', () => {
+  audio.muted = false;
+});
+audio.volume = 0.35;
+
+function setPlaying(on){
+  iconPlay.style.display  = on ? 'none'  : 'block';
+  iconPause.style.display = on ? 'block' : 'none';
+  on ? bars.classList.remove('paused') : bars.classList.add('paused');
+}
+window.addEventListener('load', () => {
+  setPlaying(true);
+  bars.classList.remove('paused');
+});
+function fadeIn(){
+  audio.volume = 0;
+  const t = setInterval(()=>{
+    audio.volume = Math.min(audio.volume + 0.02, 0.35);
+    if(audio.volume >= 0.35) clearInterval(t);
+  }, 80);
+}
+
+// play/pause button
+playBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  if(audio.paused){
+    audio.play().then(()=>{ setPlaying(true); fadeIn(); }).catch(()=>{});
+  } else {
+    audio.pause();
+    setPlaying(false);
+  }
+});
+
+// browsers block autoplay until user interacts — catch FIRST gesture
+let unlocked = false;
+
+function unlock(){
+  if(unlocked) return;
+
+  audio.play().then(()=>{
+    unlocked = true;
+    setPlaying(true);
+    fadeIn();
+  }).catch(()=>{});
+  
+  window.removeEventListener('pointerdown', unlock);
+}
+
+window.addEventListener('pointerdown', unlock, { once:true });
+
+// sync icon if browser somehow manages to autoplay
+audio.addEventListener('play',  ()=> setPlaying(true));
+audio.addEventListener('pause', ()=> setPlaying(false));
 
 /* ── BULB ON-EFFECT ──────────────────── */
 new IntersectionObserver(entries=>{
