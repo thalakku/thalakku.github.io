@@ -680,10 +680,14 @@ footer {
   .section { padding: 5rem 1.5rem; }
   .exp-layout { grid-template-columns: 1fr; }
   .exp-side { border-right: none; border-bottom: 1px solid var(--rim2); }
+  /* tablet — 2 col, AI + IoT full width */
   .pgrid { grid-template-columns: 1fr 1fr; }
   .pc:nth-child(n) { grid-column: span 1; grid-row: auto; }
   .pc:nth-child(1) { grid-column: span 2; }
   .pc:nth-child(2) { grid-column: span 2; }
+  /* AI card inner: stack vertically on tablet */
+  .pc:nth-child(1) .pi { grid-template-columns: 1fr !important; gap: 1.5rem !important; min-height: auto !important; }
+  .pc:nth-child(2) .pi { min-height: 280px; }
   .sk-layout { grid-template-columns: 1fr; }
   .sk-l { border-right: none; border-bottom: 1px solid var(--rim2); }
   .aw-grid { grid-template-columns: 1fr; }
@@ -692,6 +696,46 @@ footer {
   footer { grid-template-columns: 1fr; gap: .4rem; }
   .fr { text-align: left; }
   .sep { margin: 0 1.5rem; }
+}
+
+/* ── MOBILE — single column everything ── */
+@media(max-width:600px){
+  .h-name-madesh, .h-name-thalakku { font-size: 3rem; }
+  .h-ticker { flex-wrap: wrap; gap: .5rem; justify-content: center; }
+  .h-bio { max-width: 100%; }
+
+  /* all project cards: full width, single column */
+  .pgrid { grid-template-columns: 1fr; gap: 1px; }
+  .pc:nth-child(n) { grid-column: span 1 !important; grid-row: auto !important; }
+  /* AI card inner: fully stacked */
+  .pc:nth-child(1) .pi {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+    min-height: auto !important;
+  }
+  .pi { min-height: auto !important; padding: 1.8rem; }
+  .ptit { font-size: 1.1rem !important; }
+  .pdesc { font-size: .75rem; }
+
+  /* exp sidebar stacks */
+  .exp-side { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .exp-body { padding: 1.5rem; }
+
+  /* skills */
+  .sk-row { grid-template-columns: 120px 1fr; gap: .8rem; }
+  .sk-name { font-size: .65rem; }
+
+  /* awards */
+  .aw-pan { padding: 2rem; }
+  .aw-tit { font-size: 1.2rem; }
+
+  /* contact */
+  .ct-l, .ct-r { padding: 2rem; }
+  .ct-big { font-size: 2.5rem; }
+
+  /* section titles */
+  .stitle { font-size: 2.5rem; }
+  .slabel { margin-bottom: 2.5rem; }
 }
 </style>
 </head>
